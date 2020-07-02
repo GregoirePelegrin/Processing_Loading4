@@ -1,39 +1,75 @@
 class Cube{
+  Cube precedent;
   float angle;
   float size;
-  
-  float tempAngleX;
-  float tempAngleY;
+  boolean turning;
   
   Cube(float s){
     this.size = s;
-    tempAngleX = 0;
-    tempAngleY = 0;
+    this.angle = 0;
+    this.turning = false;
   }
   
   void update(){
-    this.angle += 0.01;
-    
-    /*if(this.tempAngleX < PI/3){
-      this.tempAngleX += PI/4 / 60;
-    } else if(this.tempAngleY < PI/3) {
-      this.tempAngleY += PI/4 / 60;
-    } else {
-      noLoop();
-    }*/
+    if(this.precedent.angle >= PI/5){
+      this.turning = true;
+    }
+    if(this.turning){
+      this.angle += 0.1;
+    }
+    if(this.angle >= PI){
+      this.turning = false;
+      this.angle = 0;
+    }
+  }
+  
+  void setFirst(){
+    this.turning = true;
+  }
+  
+  void setPrecedent(Cube c){
+    this.precedent = c;
   }
   
   void display(){
+    stroke(map(this.size, sizeCube, nbrCubes*sizeCube, 0, 127), 255, 255);
     rotateX(this.angle);
-    rotateY(this.angle);
-    box(this.size);
+    beginShape();
+    vertex(0, this.size/2, -this.size/2);
+    vertex(0, this.size/2, this.size/2);
+    vertex(this.size/2, 0, this.size/2);
+    vertex(this.size/2, 0, -this.size/2);  
+    endShape(CLOSE);
+    beginShape();
+    vertex(0, this.size/2, -this.size/2);
+    vertex(-this.size/2, 0, -this.size/2);
+    vertex(-this.size/2, 0, this.size/2);
+    vertex(0, this.size/2, this.size/2);
+    endShape(CLOSE);
+    beginShape();
+    vertex(0, this.size/2, -this.size/2);
+    vertex(this.size/2, 0, -this.size/2);
+    vertex(0, -this.size/2, -this.size/2);
+    vertex(-this.size/2, 0, -this.size/2);    
+    endShape(CLOSE);
+    beginShape();
+    vertex(0, -this.size/2, this.size/2);
+    vertex(this.size/2, 0, this.size/2);
+    vertex(this.size/2, 0, -this.size/2);
+    vertex(0, -this.size/2, -this.size/2);
+    endShape(CLOSE);
+    beginShape();
+    vertex(0, -this.size/2, this.size/2);
+    vertex(-this.size/2, 0, this.size/2);
+    vertex(-this.size/2, 0, -this.size/2);
+    vertex(0, -this.size/2, -this.size/2);
+    endShape(CLOSE);
+    beginShape();
+    vertex(0, -this.size/2, this.size/2);
+    vertex(-this.size/2, 0, this.size/2);
+    vertex(0, this.size/2, this.size/2);
+    vertex(this.size/2, 0, this.size/2);
+    endShape(CLOSE);
     rotateX(-this.angle);
-    rotateY(-this.angle);
-    
-    /*rotateX(this.tempAngleX);
-    rotateZ(this.tempAngleY);
-    box(this.size);
-    rotateZ(-this.tempAngleY);
-    rotateX(-this.tempAngleX);*/
   }
 }
